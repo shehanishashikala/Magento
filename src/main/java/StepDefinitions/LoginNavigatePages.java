@@ -7,13 +7,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.signInPage;
+import pages.*;
 import pages.signInPage;
 
 public class LoginNavigatePages {
 
     WebDriver driver;
     signInPage signIn;
+    homePage home;
+    myAccountPage myAccount;
+    myOrdersPage myOrders;
+    myDownloadableProductsPage myDownloadableProducts;
+    myWishListPage myWishList;
+    addressBookPage addressBook;
+    editAccountPage editAccount;
+    storedPaymentPage storedPayment;
+    productReviewsPage productReviews;
 
     @Before
     public void setUp() {
@@ -43,19 +52,16 @@ public class LoginNavigatePages {
     }
 
     @When("I enter valid credential of {string} and {string}")
-    public void i_enter_valid_credential_of_and(String Email, String Password) {
-
+    public void i_enter_valid_credential_of_and(String Email, String Password) throws InterruptedException {
         signIn = new signInPage(driver);
+        Thread.sleep(2000);
         signIn.enterEmail(Email);
         signIn.enterPassword(Password);
-
-//        driver.findElement(By.id("email")).sendKeys(Email);
-//        driver.findElement(By.id("pass")).sendKeys(Password);
     }
 
     @When("I click the Sign In button")
     public void i_click_the_sign_in_button() {
-       driver.findElement(By.xpath("//fieldset[@class='fieldset login']//span[contains(text(),'Sign In')]")).click();
+        signIn.clickSubmit();
     }
 
     @When("I navigate to Home Page")
@@ -64,17 +70,12 @@ public class LoginNavigatePages {
 
     @Then("I should see the Home Page header")
     public void i_should_see_the_home_page_header() throws InterruptedException {
-        WebElement accPageHeader = driver.findElement(By.cssSelector(".base"));
-        System.out.println(accPageHeader.getText());
-        Thread.sleep(2000);
-    }
 
-//    @Then("I should see the Home page header")
-//    public void i_should_see_the_home_page_header() throws InterruptedException {
-//        WebElement accPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-//        System.out.println(accPageHeader.getText());
-//        Thread.sleep(2000);
-//    }
+        home = new homePage(driver);
+        String HeaderText = home.getHomePageHeader();
+        Thread.sleep(2000);
+        System.out.println("Home Page Header: " + HeaderText);
+    }
 
     @Then("I click the above arrow icon")
     public void i_click_the_above_arrow_icon() throws InterruptedException {
@@ -95,9 +96,12 @@ public class LoginNavigatePages {
 
     @Then("I should see the My Account header")
     public void i_should_see_the_my_account_header() throws InterruptedException {
+
+        myAccount = new myAccountPage(driver);
+        String HeadermyAcc = myAccount.getMyAccountPageHeader();
         Thread.sleep(2000);
-        WebElement accPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-        System.out.println(accPageHeader.getText());
+        System.out.println("Account Page Header: " + HeadermyAcc);
+
     }
 
     @Then("I click My Orders button")
@@ -113,9 +117,11 @@ public class LoginNavigatePages {
 
     @Then("I should see the My Orders header")
     public void i_should_see_the_my_orders_header() throws InterruptedException {
+        myOrders = new myOrdersPage(driver);
+        String myOrders_Header = myOrders.getMyOrders_pageHeader();
         Thread.sleep(2000);
-        WebElement myOrdersPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-        System.out.println(myOrdersPageHeader.getText());
+        System.out.println("My Orders Header: " + myOrders_Header);
+
     }
 
     @Then("I click My Downloadable Products button")
@@ -130,9 +136,10 @@ public class LoginNavigatePages {
     }
     @Then("I should see the My Downloadable Products header")
     public void i_should_see_the_my_downloadable_products_header() throws InterruptedException {
+        myDownloadableProducts = new myDownloadableProductsPage(driver);
+        String myDownloadableProducts_Header = myDownloadableProducts.getMyAccount_pageHeader();
         Thread.sleep(2000);
-        WebElement downloadProductsPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-        System.out.println(downloadProductsPageHeader.getText());
+        System.out.println("My Downloadable Products Header: " + myDownloadableProducts_Header);
     }
 
     @Then("I click My Wish List button")
@@ -147,9 +154,10 @@ public class LoginNavigatePages {
 
     @Then("I should see the My Wish List header")
     public void i_should_see_the_my_wish_list_header() throws InterruptedException {
+        myWishList = new myWishListPage(driver);
+        String myWishList_Header = myWishList.getWishListPageHeader();
         Thread.sleep(2000);
-        WebElement wishListPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-        System.out.println(wishListPageHeader.getText());
+        System.out.println("My Wish List Header: " + myWishList_Header);
     }
 
     @Then("I click Address Book button")
@@ -164,9 +172,11 @@ public class LoginNavigatePages {
 
     @Then("I should see the Add New Address header")
     public void i_should_see_the_add_new_address_header() throws InterruptedException {
+        addressBook = new addressBookPage(driver);
+        String addressBook_PageHeader = addressBook.getAddressBookPageHeader();
         Thread.sleep(2000);
-        WebElement addressBookPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-        System.out.println(addressBookPageHeader.getText());
+        System.out.println("Address Book Page Header: " + addressBook_PageHeader);
+
     }
 
     @Then("I click Account Information button")
@@ -180,9 +190,10 @@ public class LoginNavigatePages {
 
     @Then("I should see the Edit Account Information header")
     public void i_should_see_the_edit_account_information_header() throws InterruptedException {
-        Thread.sleep(2000);
-        WebElement accInfoPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-        System.out.println(accInfoPageHeader.getText());
+       editAccount = new editAccountPage(driver);
+       String editAccount_Page = editAccount.geteditAccountPageHeader();
+       Thread.sleep(2000);
+       System.out.println("Edit Account Page: " + editAccount_Page);
     }
 
     @Then("I click Stored Payment Methods button")
@@ -197,9 +208,10 @@ public class LoginNavigatePages {
 
     @Then("I should see the Stored Payment Methods header")
     public void i_should_see_the_stored_payment_methods_header() throws InterruptedException {
+        storedPayment = new storedPaymentPage(driver);
+        String storedPayment_PageHeader = storedPayment.getStoredPaymentPageHeader();
         Thread.sleep(2000);
-        WebElement paymentMethodPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-        System.out.println(paymentMethodPageHeader.getText());
+        System.out.println("Stored Payment Page Header: " + storedPayment_PageHeader);
     }
 
     @When("I click My Product Reviews button")
@@ -214,9 +226,10 @@ public class LoginNavigatePages {
 
     @Then("I should see the My Product Reviews header")
     public void i_should_see_the_my_product_reviews_header() throws InterruptedException {
-        Thread.sleep(2000);
-        WebElement productReviewPageHeader = driver.findElement(By.xpath("//span[@class='base']"));
-        System.out.println(productReviewPageHeader.getText());
+       productReviews = new productReviewsPage(driver);
+       String productReview_PageHeader = productReviews.getProductReviewsPageHeader();
+       Thread.sleep(2000);
+       System.out.println("Product Review Page Header: " + productReview_PageHeader);
     }
 
     @Given("I click the arrow icon again")
